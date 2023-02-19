@@ -1,9 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import { statusFilters } from './constants';
-
-// const filtersInitialState = {
-//   status: JSON.parse(localStorage.getItem('contacts')) ?? [],
-// };
 
 const filtersSlice = createSlice({
   name: 'filters',

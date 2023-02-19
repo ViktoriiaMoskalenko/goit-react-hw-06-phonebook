@@ -1,19 +1,24 @@
 import PropTypes from 'prop-types';
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setStatusContacts } from '../../redux/contactsSlice'
+import { setStatusName } from '../../redux/nameSlice'
+import { setStatusNumber } from '../../redux/numberSlice'
 import { nanoid } from 'nanoid'
 import styles from './Phonebook.module.css'
-export function ContactForm ({hendleSubmit}){
-    const [name, setName] = useState('')
-    const [number, setNumber] = useState('')
-
+export function ContactForm (){
+  const contacts = useSelector(state => state.contacts);
+  const name = useSelector(state => state.name);
+  const number = useSelector(state => state.number);
+    const dispatch = useDispatch();
+  
     function hendleChange (event) {
     const { name, value } = event.currentTarget
         switch (name) {
           case 'name':
-            setName(value)
+            dispatch(setStatusName(value))
             break;
           case 'number':
-            setNumber(value)
+            dispatch(setStatusNumber(value))
             break;
         
           default:
@@ -21,20 +26,27 @@ export function ContactForm ({hendleSubmit}){
         }
         
     }
+
+  function hendleSubmit(event) {
+    event.preventDefault()
+    if (contacts.find(contact =>
+      contact.name.toLowerCase() === name.toLowerCase()
     
-    function hendleSubmitForm (event){
-        event.preventDefault()
-        hendleSubmit(name, number)
-        reset()
+    )) {
+      return alert(`${name} is already in contacts.`)
     }
+    dispatch(setStatusContacts({ name, number }))
+    reset()
+  }
+  
 
       function reset () {
-      setName('')
-      setNumber('')
+      dispatch(setStatusName(''))
+      dispatch(setStatusNumber(''))
   }
     
         return (
-        <form onSubmit={hendleSubmitForm} className={styles.form}>
+        <form onSubmit={hendleSubmit} className={styles.form}>
         <label className={styles.form_label}>
           Name
           <br/><input

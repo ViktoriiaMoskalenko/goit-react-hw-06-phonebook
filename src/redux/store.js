@@ -4,6 +4,8 @@ import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import { contactsReducer } from './contactsSlice';
 import { filtersReducer } from './filtersSlice';
+import { nameReducer } from './nameSlice';
+import { numberReducer } from './numberSlice';
 import {
   FLUSH,
   REHYDRATE,
@@ -16,6 +18,8 @@ import {
 const contactReducer = combineReducers({
   contacts: contactsReducer,
   filters: filtersReducer,
+  name: nameReducer,
+  number: numberReducer,
 });
 
 const persistConfig = {
